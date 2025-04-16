@@ -32,31 +32,33 @@ void PrintIntBin(int integer) {
     char txData[200];
     DBG_UART_UartPutString(itoa(integer, txData, 2));
 }
-    
-void PrintCanPacket(CANPacket* packet) {
-    char txData[200];
-    sprintf(txData, "ID %X DLC %X DATA", packet->id, packet->dlc);
-    Print(txData);
-    for(int i = 0; i < packet->dlc; i++ ) {
-        sprintf(txData," %02X", packet->data[i]);
-        Print(txData);
-    }
-    Print("\r\n");
-}
+ 
+// Redudant functions, don't know what the point is. Is it for debugging? 
 
-void DebugPrint(char input) {
-    char txData[200];
-    switch(input) {
-        case 'p': // Position
-            sprintf(txData, "Pos:%li PWM:%li", 
-                1, 2);
-            Print(txData);
-            break;
-        default:
-            Print("what");
-            break;
-    }
-    Print("\r\n");
-}
+//void PrintCanPacket(CANPacket* packet) {
+//    char txData[200];
+//    sprintf(txData, "ID %X DLC %X DATA", packet->id, packet->dlc);
+//    Print(txData);
+//    for(int i = 0; i < packet->dlc; i++ ) {
+//        sprintf(txData," %02X", packet->data[i]);
+//        Print(txData);
+//    }
+//    Print("\r\n");
+//}
+
+//void DebugPrint(char input) {
+//    char txData[200];
+//    switch(input) {
+//        case 'p': // Position
+//            sprintf(txData, "Pos:%li PWM:%li", 
+//                1, 2);
+//            Print(txData);
+//            break;
+//        default:
+//            Print("what");
+//            break;
+//    }
+//    Print("\r\n");
+//}
 
 /* [] END OF FILE */

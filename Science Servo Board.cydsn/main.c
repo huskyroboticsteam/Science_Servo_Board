@@ -10,16 +10,12 @@
  * ========================================
 */
 
-#include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "main.h"
 #include "cyapicallbacks.h"
-#include "CAN_Stuff.h"
-#include "CANScience.h"
-#include "HindsightCAN/CANLibrary.h"
-#include "Port.h"
+
 
 // UART stuff
 char txData[TX_DATA_SIZE];
@@ -52,22 +48,25 @@ int main(void)
 void Initialize(void) {
     CyGlobalIntEnable; /* Enable global interrupts. LED arrays need this first */
     
-    // address = getSerialAddress(); Need to choose address for this board
+    // address = getSerialAddress(); Need to choose address for this board, I don't know what this supposed to be 
     
     DBG_UART_Start();
     sprintf(txData, "Dip Addr: %x \r\n", address);
     Print(txData);
     
-    PWM_Start();
+    //PWM_Start();
     
-    InitCAN(DEVICE_GROUP_SCIENCE, (int)address); // Board group as Science?
+    InitCAN(DEVICE_GROUP_SCIENCE, (int)address); // Board group as Science?, I don't know what this means 
+    initialize_servos();
+
 }
 
+/* Let me know which DebugPrint is needed 
 void DebugPrint(char input) {
     switch(input) {
-        case 'f':
-            sprintf(txData, "Mode: %x State:%x \r\n", GetMode(), GetState());
-            break;
+        //case 'f':
+        //    sprintf(txData, "Mode: %x State:%x \r\n", GetMode(), GetState());
+        //    break;
         case 'x':
             sprintf(txData, "bruh\r\n");
             break;
@@ -76,21 +75,6 @@ void DebugPrint(char input) {
             break;
     }
     Print(txData);
-}
-
-
-// Given a position in degrees and servo (either CAM_SERVO 1 or 2), sets servo to given pos.
-void set_servo_position(uint8_t servo, uint8_t position) {
-    uint16_t pwm_duty = 50; //Set based off servo documentation
-    switch(servo) {
-        case(CAM_SERVO_1):        
-            PWM_WriteCompare1(pwm_duty);
-        case(CAM_SERVO_2):
-            PWM_WriteCompare2(pwm_duty);
-        default:
-            sprintf(txData, "No servo found \r\n");
-            Print(txData);
-    }
-}
+} */
 
 /* [] END OF FILE */

@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "main.h"
 #include "CAN_Stuff.h"
-#include "FSM_Stuff.h"
+//#include "FSM_Stuff.h"
 #include "HindsightCAN/CANLibrary.h"
 
 extern char txData[TX_DATA_SIZE];
@@ -28,25 +28,35 @@ int ProcessCAN(CANPacket* receivedPacket, CANPacket* packetToSend) {
     int err = 0;
     
     switch(packageID){
+        // Will delete after checking. 
         // Board-specific packets
-        case(ID_MOTOR_UNIT_MODE_SEL):
-            data = GetModeFromPacket(receivedPacket);
-            
-            if(data == MODE1) {
-                SetModeTo(MODE1);
-                // initialize MODE1
-            } else {
-                err = ERROR_INVALID_MODE;
-            }
-            break;
+        //case(ID_MOTOR_UNIT_MODE_SEL):
+        //    data = GetModeFromPacket(receivedPacket);
+        //    
+        //    if(data == MODE1) {
+        //        SetModeTo(MODE1);
+        //        // initialize MODE1
+        //    } else {
+        //        err = ERROR_INVALID_MODE;
+        //    }
+        //    break;
             
         // Common Packets
-        case(ID_ESTOP):
-            Print("\r\n\r\nSTOP\r\n\r\n");
-            // stop all movement
-            GotoUninitState();
-            err = ESTOP_ERR_GENERAL;
-            break;
+        //case(ID_ESTOP):
+        //    Print("\r\n\r\nSTOP\r\n\r\n");
+        //    // stop all movement
+        //    GotoUninitState();
+        //    err = ESTOP_ERR_GENERAL;
+        //    break;
+        case(ID_SCIENCE_SERVO_SET): {
+            uint8_t servoID = receivedPacket->data[0];
+            uint8_t degrees = receivedPacket->data[1];
+            
+            if(servoID >= SERVO_COUNT || degrees > SERVO_MAX_ANGLE || degrees < SERVO_MIN_ANGLE) {
+                err = ERROR_INVALID_SERVO_DATA;
+            }
+        }
+        
         
         case(ID_TELEMETRY_PULL):            
             switch(DecodeTelemetryType(receivedPacket))

@@ -10,26 +10,27 @@
  * ========================================
 */
 #include <stdint.h>
-#include "CANLibrary.h"
-#include "CANScience.h"
 #include "PCA9685.h"
 #include "project.h"
 
-#define SERVO1 0 
-#define SERVO2 1
-#define SERVO3 2
-#define SERVO4 3
-#define SERVO5 4 
-#define SERVO6 5
-#define SERVO7 6
-#define SERVO8 7
-#define SERVO9 8
-#define SERVO10 9
+#define CE_SERVO 0 
+#define SP_SERVO 1
+#define TAMP_SERVO 2
+#define FLT_SERVO 3
+#define HOLE_SERVO 4 
+#define MF_SERVO 5
+#define SSC_SERVO 6
+#define SERVO8 7 // No function so far
+#define SERVO9 8 // No function so far
+#define SERVO10 9 // No function so far
 
 #define SERVO_COUNT 10
 #define SERVO_MAX_ANGLE 180
 #define SERVO_MIN_ANGLE 0
 
-int set_servo_position(int servo, int degrees);
+void initialize_servos(void);
+int set_servo_position(uint8_t servo, uint8_t degrees);
+int get_servo_position(int servo);
+
 
 /* [] END OF FILE */

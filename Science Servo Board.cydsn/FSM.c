@@ -25,7 +25,6 @@ int8_t pos;
 int32_t val;
 uint8_t servoID;
 uint8_t runFlag;
-
 uint8_t servoPosList[SERVO_COUNT]; // for future use, in case need to incr or decr
 
 void UART_FSM(char rxByte) {
@@ -125,12 +124,6 @@ void readDataAction(char rxByte) {
         if (!pos) setVal(-1*val);
         Print("\r\n");
         /*switch (mode) {
-            case LAZY_SUSAN_MODE:
-                setFlag(1);
-                
-                setFSMState(IDLE);
-                setFSMMode(MICHAEL_MODE);
-                break;
             case SCI_SERVO_MODE:
                 setScienceServo();
                 break;

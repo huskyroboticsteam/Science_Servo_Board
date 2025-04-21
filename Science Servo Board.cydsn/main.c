@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "main.h"
+#include "project.h"
 #include "cyapicallbacks.h"
 
 
@@ -48,7 +49,7 @@ int main(void)
 void Initialize(void) {
     CyGlobalIntEnable; /* Enable global interrupts. LED arrays need this first */
     
-    // address = getSerialAddress(); Need to choose address for this board, I don't know what this supposed to be 
+    address = getSerialAddress(); // Need to choose address for this board, I don't know what this supposed to be 
     
     DBG_UART_Start();
     sprintf(txData, "Dip Addr: %x \r\n", address);
@@ -56,7 +57,7 @@ void Initialize(void) {
     
     //PWM_Start();
     
-    InitCAN(DEVICE_GROUP_SCIENCE, (int)address); // Board group as Science?, I don't know what this means 
+    InitCAN(DEVICE_GROUP_SCIENCE, (int)address);
     initialize_servos();
 
 }
@@ -76,5 +77,19 @@ void DebugPrint(char input) {
     }
     Print(txData);
 } */
+
+// Using dip to get the address
+int getSerialAddress() {
+    int address = 0;
+
+    address |= Dip_1_Read() << 0;
+    address |= Dip_2_Read() << 1;
+    address |= Dip_3_Read() << 2;
+    address |= Dip_4_Read() << 3;
+
+    return address;
+}
+
+
 
 /* [] END OF FILE */

@@ -14,8 +14,6 @@
 
 int16 current_servo_values[10] = {};
 
-int get_servo_position(int servo);
-
 void initialize_servos() {
     pca_init();
 }
@@ -25,9 +23,9 @@ void initialize_servos() {
 // degrees is from 0 to 180
 int set_servo_position(uint8_t servo, uint8_t degrees){
     float32 duty;
-    if(degrees > 180) degrees = 180;
-	if(degrees < 0) degrees = 0;
-	if (servo < 0 || servo > 10){ 
+    if(degrees > SERVO_MAX_ANGLE) degrees = SERVO_MAX_ANGLE;
+	if(degrees < SERVO_MIN_ANGLE) degrees = SERVO_MIN_ANGLE;
+	if (servo < 0 || servo > SERVO_COUNT){ 
         return 1;
     }
     current_servo_values[servo] = degrees;
@@ -44,5 +42,11 @@ int get_servo_position(int servo){
     return current_servo_values[servo];
 }
 
+void reset_all_servos() {
+    for (int i = 0; i < SERVO_COUNT; i++) {
+        current_servo_values[i] = 0;
+        set_servo_position(i, 0);
+    }
+}
 
 /* [] END OF FILE */

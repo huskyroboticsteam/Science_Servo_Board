@@ -12,13 +12,15 @@
 
 #include "FSM_Stuff.h"
 #include "project.h"
+#include "servo.h"
 
 uint8_t currentState  = UNINIT;
 uint8_t currentMode   = 0xFF;
 
 void GotoUninitState() {
     currentState = UNINIT;
-    // reset any parameters
+    // I made a function to reset the all the servos to 0, if emergency break happens, let me know if you want to be something else instead 
+    reset_all_servos();
 }
 void SetStateTo(uint8_t state) {
     currentState = state;

@@ -20,10 +20,12 @@
 #include "cyapicallbacks.h"
 #include "CAN_Stuff.h"
 #include "CANScience.h"
+#include "DBG_UART.h"
 #include "HindsightCAN/CANLibrary.h"
 #include "Port.h"
 #include "servo.h"
 #include "debug.h"
+#include "project.h"
         
 #define ON  1
 #define OFF 0

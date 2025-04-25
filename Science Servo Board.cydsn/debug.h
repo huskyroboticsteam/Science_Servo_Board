@@ -26,7 +26,7 @@ void PrintInt(int integer);
 
 void PrintIntBin(int integer);
 
-void PrintCanPacket(CANPacket* packet);
+//void PrintCanPacket(CANPacket* packet);
     
 void DebugPrint(char input);
     

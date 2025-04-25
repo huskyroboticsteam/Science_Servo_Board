@@ -34,7 +34,7 @@ void PrintIntBin(int integer) {
 }
  
 // Redudant functions, don't know what the point is. Is it for debugging? 
-
+/*
 void PrintCanPacket(CANPacket* packet) {
     char txData[200];
     sprintf(txData, "ID %X DLC %X DATA", packet->id, packet->dlc);
@@ -44,7 +44,7 @@ void PrintCanPacket(CANPacket* packet) {
         Print(txData);
     }
     Print("\r\n");
-}
+}*/
 
 void DebugPrint(char input) {
     char txData[200];

@@ -17,32 +17,52 @@
 #include "project.h"
 #include "cyapicallbacks.h"
 
+// LED stuff
+volatile uint8 DBG_time_LED = 0;
+volatile uint8 CAN_time_LED = 0;
+volatile uint8 ERROR_time_LED = 0;
+uint8 address = 0x04;
 
 // UART stuff
 char txData[TX_DATA_SIZE];
 
 // CAN stuff
-CANPacket received;
-uint8 address = 0x04;
+CANPacket can_recieve;
+CANPacket can_send;
 
 // Servo Stuff
-
-
 int main(void)
 { 
     Initialize();
-    volatile int error;
+    volatile int error = 0;
+    DBG_time_LED = 0;
+    
     
     for(;;)
     {
-        if (!error) {
-            int ID = GetPacketID(&received);
-            if (ID == ID_SCIENCE_SERVO_SET) {
-                uint8_t servoID = GetScienceServoAngleFromPacket(&received);
-                uint8_t angle = GetScienceServoAngleFromPacket(&received);
-                set_servo_position(servoID, angle);
-            }
+        if (!PollAndReceiveCANPacket(&can_recieve)) {
+            //CAN_LED_Write(OFF);
+            //CAN_time_LED = 0;
+            // PrintCanPacket(&can_recieve); // DEBUG
+            error = ProcessCAN(&can_recieve, &can_send);
+            DisplayErrorCode(error);
         }
+        if (!error) {
+            //int ID = GetPacketID(&can_recieve);
+            //if (ID == ID_SCIENCE_SERVO_SET) {
+            //    uint8_t servoID = GetScienceServoAngleFromPacket(&can_recieve);
+            //    uint8_t angle = GetScienceServoAngleFromPacket(&can_recieve);
+            //    set_servo_position(servoID, angle);
+                  set_servo_position(1, 90);
+                
+            //}
+        }
+        set_servo_position(1, 90);
+        sprintf(txData, "DBG LED: %x \r\n", DBG_time_LED);
+        DBG_LED_Write(ON);
+        DBG_time_LED++;
+        if (DBG_time_LED >= 10)
+            DBG_LED_Write(OFF);
     }
 }
 
@@ -89,7 +109,41 @@ int getSerialAddress() {
 
     return address;
 }
+void DisplayErrorCode(uint8 code) {    
+    ERROR_time_LED = 0;
+    ERR_LED_Write(OFF);
+    
+    sprintf(txData, "Error %X: ", code);
+    Print(txData);
 
+    switch(code) {
+        case ERROR_INVALID_PACKET:
+            Print("Packet type not recognized\r\n");
+            break;
+        case ERROR_INVALID_SERVO_DATA:
+            Print("Wrong Servo data\r\n");
+            break;
+        case ERROR_INVALID_TTC:
+            Print("Cannot send that data type\r\n");
+            break;
+        case ERROR_ESTOP:
+            Print("ESTOP\r\n");
+            break;
+        default:
+            Print(":(\r\n");
+            break;
+    }
+}
+
+CY_ISR(LED_Handler) {
+    CAN_time_LED++;
+    ERROR_time_LED++;
+    
+    if (ERROR_time_LED >= 10)
+        ERR_LED_Write(OFF);
+    if (CAN_time_LED >= 2)
+        CAN_LED_Write(OFF);
+}
 
 
 /* [] END OF FILE */

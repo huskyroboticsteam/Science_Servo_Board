@@ -14,6 +14,10 @@
 
 #include <project.h>
 #include "HindsightCAN/CANLibrary.h"
+#include "cyapicallbacks.h"
+#include "project.h"
+
+
 
 // CAN Errors (0x10-0x1F)
 #define ERROR_NO_NEW_PACKET 0xFFFF
@@ -22,6 +26,7 @@
 #define ERROR_INVALID_TTC     0x12
 #define ERROR_INVALID_PACKET  0x13
 #define ERROR_INVALID_SERVO_DATA 0x14
+#define ERROR_ESTOP 0x15
 
 #define SERVO_COUNT 10
 #define SERVO_MAX_ANGLE 180

@@ -22,6 +22,7 @@
 #include "CANScience.h"
 #include "DBG_UART.h"
 #include "HindsightCAN/CANLibrary.h"
+#include "HindsightCAN/CANPacket.h"
 #include "Port.h"
 #include "servo.h"
 #include "debug.h"
@@ -36,6 +37,8 @@
 #define PrintChar(character) DBG_UART_UartPutChar(character)
 // #define PrintInt(integer) DBG_UART_UartPutString(itoa(integer, txData, 10))
 // #define PrintIntBin(integer) DBG_UART_UartPutString(itoa(integer, txData, 2))
+
+
 
 
 void Initialize(void);

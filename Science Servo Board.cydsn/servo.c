@@ -12,12 +12,14 @@
 #include "project.h"
 #include "servo.h"
 
+char txData[TX_DATA_SIZE];
+
 int16 current_servo_values[10] = {};
 
 void initialize_servos() {
     pca_init();
+    
 }
-   
 
 // sets the PCA duty cycle for positional servos 1-10
 // degrees is from 0 to 180
@@ -28,9 +30,12 @@ int set_servo_position(uint8_t servo, uint8_t degrees){
 	if (servo < 0 || servo > SERVO_COUNT){ 
         return 1;
     }
+    
     current_servo_values[servo] = degrees;
-
+    
     duty = (degrees/180.0)*5 + 5;
+    sprintf(txData, "Duty: %f \r\n", duty);
+    sprintf(txData, "Servo: %hhu \r\n", servo);
    	setPWMFromDutyCycle(servo, duty);
     return 0;
 }

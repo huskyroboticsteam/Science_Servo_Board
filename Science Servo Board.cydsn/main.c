@@ -18,6 +18,8 @@
 #include "cyapicallbacks.h"
 
 
+volatile int error = 0;
+
 // UART stuff
 char txData[TX_DATA_SIZE];
 
@@ -27,11 +29,9 @@ uint8 address = 0x04;
 
 // Servo Stuff
 
-
 int main(void)
 { 
     Initialize();
-    volatile int error;
     
     for(;;)
     {

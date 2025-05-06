@@ -44,8 +44,8 @@ int main(void)
             //CAN_LED_Write(OFF);
             //CAN_time_LED = 0;
             // PrintCanPacket(&can_recieve); // DEBUG
-            error = ProcessCAN(&can_recieve, &can_send);
-            DisplayErrorCode(error);
+            //error = ProcessCAN(&can_recieve, &can_send);
+            //DisplayErrorCode(error);
         }
         if (!error) {
             //int ID = GetPacketID(&can_recieve);
@@ -78,8 +78,15 @@ void Initialize(void) {
     //PWM_Start();
     
     InitCAN(DEVICE_GROUP_SCIENCE, (int)address);
+   
+    sprintf(txData, "Test 1: %x \r\n", address);
+    Print(txData);  
+    
     initialize_servos();
-
+    
+    sprintf(txData, "Test 2: %x \r\n", address);
+    Print(txData);
+    
 }
 
 /* Let me know which DebugPrint is needed 

@@ -11,7 +11,14 @@
 */
 #include <stdint.h>
 #include "PCA9685.h"
-#include "project.h"
+//#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "main.h"
+#include "cyapicallbacks.h"
+#include "CAN_Stuff.h"
+#include "CANScience.h"
+#include "DBG_UART.h"
 
 #define CE_SERVO 0 
 #define SP_SERVO 1

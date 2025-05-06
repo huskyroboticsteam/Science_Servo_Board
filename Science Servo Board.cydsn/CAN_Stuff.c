@@ -37,6 +37,7 @@ int ProcessCAN(CANPacket* receivedPacket, CANPacket* packetToSend) {
            err = ESTOP_ERR_GENERAL;
            break;
         case(ID_SCIENCE_SERVO_SET): {
+            CAN_LED_Write(ON);
             uint8_t servoID = receivedPacket->data[0];
             uint8_t degrees = receivedPacket->data[1];
             

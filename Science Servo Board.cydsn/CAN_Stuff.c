@@ -38,8 +38,8 @@ int ProcessCAN(CANPacket* receivedPacket, CANPacket* packetToSend) {
            break;
         case(ID_SCIENCE_SERVO_SET): {
             CAN_LED_Write(ON);
-            uint8_t servoID = receivedPacket->data[0];
-            uint8_t degrees = receivedPacket->data[1];
+            uint8_t servoID = receivedPacket->data[1];
+            uint8_t degrees = receivedPacket->data[2];
             
             if(servoID >= SERVO_COUNT || degrees > SERVO_MAX_ANGLE || degrees < SERVO_MIN_ANGLE) {
                 err = ERROR_INVALID_SERVO_DATA;

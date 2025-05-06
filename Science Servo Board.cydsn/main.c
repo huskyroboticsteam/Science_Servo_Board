@@ -29,35 +29,36 @@ volatile int error = 0;
 char txData[TX_DATA_SIZE];
 
 // CAN stuff
-CANPacket can_recieve;
+CANPacket can_receive;
 CANPacket can_send;
 
 // Servo Stuff
 int main(void)
 { 
     Initialize();
-    volatile int error = 0;
+    volatile int error;
     DBG_time_LED = 0;
     
     
     for(;;)
     {
-        if (!PollAndReceiveCANPacket(&can_recieve)) {
-            //CAN_LED_Write(OFF);
-            //CAN_time_LED = 0;
-            // PrintCanPacket(&can_recieve); // DEBUG
-            //error = ProcessCAN(&can_recieve, &can_send);
-            //DisplayErrorCode(error);
+        if (!PollAndReceiveCANPacket(&can_receive)) {
+            CAN_LED_Write(OFF);
+            CAN_time_LED = 0;
+            // PrintCanPacket(&can_receive); // DEBUG
+            sprintf(txData, "CAN packet received\r\n");
+            Print(txData);
+            error = ProcessCAN(&can_receive, &can_send);
+            DisplayErrorCode(error);
         }
         if (!error) {
-            //int ID = GetPacketID(&can_recieve);
-            //if (ID == ID_SCIENCE_SERVO_SET) {
-            //    uint8_t servoID = GetScienceServoAngleFromPacket(&can_recieve);
-            //    uint8_t angle = GetScienceServoAngleFromPacket(&can_recieve);
-            //    set_servo_position(servoID, angle);
-                  set_servo_position(1, 90);
-                
-            //}
+            int ID = GetPacketID(&can_receive);
+            if (ID == ID_SCIENCE_SERVO_SET) {
+                uint8_t servoID = GetScienceServoIDFromPacket(&can_receive);
+                uint8_t angle = GetScienceServoAngleFromPacket(&can_receive);
+                set_servo_position(servoID, angle);
+                  // set_servo_position(1, 90); 
+            }
         }
         set_servo_position(1, 90);
         sprintf(txData, "DBG LED: %x \r\n", DBG_time_LED);

@@ -58,6 +58,10 @@ int main(void)
                 uint8_t angle = GetScienceServoAngleFromPacket(&can_receive);
                 set_servo_position(servoID, angle);
                   // set_servo_position(1, 90); 
+            } else if (ID == ID_SCIENCE_CONT_SERVO_POWER_SET) {
+                uint8_t servoID = GetScienceServoIDFromPacket(&can_receive);
+                uint8_t angle = GetScienceContServoPowerFromPacket(&can_receive);
+                set_cont_servo_power(servoID, angle);
             }
         }
         set_servo_position(1, 90);

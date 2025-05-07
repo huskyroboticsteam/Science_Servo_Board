@@ -37,6 +37,7 @@
 
 void initialize_servos(void);
 int set_servo_position(uint8_t servo, uint8_t degrees);
+int set_cont_servo_power(uint8_t servo, int8_t power);
 int get_servo_position(int servo);
 void reset_all_servos();
 

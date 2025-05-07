@@ -40,6 +40,22 @@ int set_servo_position(uint8_t servo, uint8_t degrees){
     return 0;
 }
 
+// power given by full range from -128 to +127
+int set_cont_servo_power(uint8_t servo, int8_t power){
+    float32 duty;
+	if (servo < 0 || servo > SERVO_COUNT){ 
+        return 1;
+    }
+    
+    current_servo_values[servo] = power;
+
+    duty = (-1*power/INT8_MIN) * 5 + 5;
+    sprintf(txData, "Duty: %f \r\n", duty);
+    sprintf(txData, "Servo: %hhu \r\n", servo);
+   	setPWMFromDutyCycle(servo, duty);
+    return 0;
+}
+
 int get_servo_position(int servo){
     if (servo < 0 || servo >= SERVO_COUNT){ 
         return 1;

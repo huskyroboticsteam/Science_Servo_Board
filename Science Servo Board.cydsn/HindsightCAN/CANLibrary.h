@@ -18,4 +18,5 @@
 #include "CANLocalization.h"
 #include "CANMotorUnit.h"
 #include "CANPower.h"
+#include "CANScience.h"
 #include "CANSerialNumbers.h"

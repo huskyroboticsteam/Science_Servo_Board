@@ -28,25 +28,24 @@ int ProcessCAN(CANPacket* receivedPacket, CANPacket* packetToSend) {
     int err = 0;
     
     switch(packageID){
-        // Board-specific packets
-        case(ID_MOTOR_UNIT_MODE_SEL):
-            data = GetModeFromPacket(receivedPacket);
             
-            if(data == MODE1) {
-                SetModeTo(MODE1);
-                // initialize MODE1
-            } else {
-                err = ERROR_INVALID_MODE;
+       // Common Packets
+       case(ID_ESTOP):
+           Print("\r\n\r\nSTOP\r\n\r\n");
+           // stop all movement
+           GotoUninitState();
+           err = ESTOP_ERR_GENERAL;
+           break;
+        case(ID_SCIENCE_SERVO_SET): {
+            CAN_LED_Write(ON);
+            uint8_t servoID = receivedPacket->data[1];
+            uint8_t degrees = receivedPacket->data[2];
+            
+            if(servoID >= SERVO_COUNT || degrees > SERVO_MAX_ANGLE || degrees < SERVO_MIN_ANGLE) {
+                err = ERROR_INVALID_SERVO_DATA;
             }
-            break;
-            
-        // Common Packets
-        case(ID_ESTOP):
-            Print("\r\n\r\nSTOP\r\n\r\n");
-            // stop all movement
-            GotoUninitState();
-            err = ESTOP_ERR_GENERAL;
-            break;
+        }
+        
         
         case(ID_TELEMETRY_PULL):            
             switch(DecodeTelemetryType(receivedPacket))

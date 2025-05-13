@@ -17,6 +17,9 @@ void pca_init(){
     I2C_Start();
     I2C_Enable();
     
+    
+    Print("I2C enabled \n");
+    
     uint8 mode_buf[2] = {0,0b10010000}; // put to sleep (bit 4) to enable prescaler update
     writeBuffer(mode_buf, PCA9685ADDY);
     
@@ -25,6 +28,8 @@ void pca_init(){
     
     uint8 mode_buf2[2] = {0,0b10000000}; // unsleep to resume normal operation
     writeBuffer(mode_buf2, PCA9685ADDY);
+    
+    Print("Worked \n");
 }
 
 /*Writes a single byte over i2c*/

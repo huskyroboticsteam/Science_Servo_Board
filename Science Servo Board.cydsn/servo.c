@@ -33,7 +33,7 @@ int set_servo_position(uint8_t servo, uint8_t degrees){
     
     current_servo_values[servo] = degrees;
     
-    duty = (degrees/180.0)*5 + 5;
+    duty = (degrees/180.0)*9 + 3;
     sprintf(txData, "Duty: %f \r\n", duty);
     sprintf(txData, "Servo: %hhu \r\n", servo);
    	setPWMFromDutyCycle(servo, duty);

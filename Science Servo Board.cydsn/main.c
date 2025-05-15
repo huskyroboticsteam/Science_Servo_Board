@@ -54,13 +54,13 @@ int main(void)
         if (!error) {
             int ID = GetPacketID(&can_receive);
             if (ID == ID_SCIENCE_SERVO_SET) {
-                uint8_t servoID = GetScienceServoIDFromPacket(&can_receive);
+                uint8_t servoID = GetScienceServoIDFromPacket(&can_receive) - 1;
                 uint8_t angle = GetScienceServoAngleFromPacket(&can_receive);
                 set_servo_position(servoID, angle);
                   // set_servo_position(1, 90); 
             }
         }
-        set_servo_position(1, 90);
+        // set_servo_position(1, 90);
         sprintf(txData, "DBG LED: %x \r\n", DBG_time_LED);
         DBG_LED_Write(ON);
         DBG_time_LED++;

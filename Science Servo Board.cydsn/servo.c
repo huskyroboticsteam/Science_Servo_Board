@@ -14,7 +14,7 @@
 
 char txData[TX_DATA_SIZE];
 
-int16 current_servo_values[10] = {};
+int16 current_servo_values[SERVO_COUNT] = {};
 
 void initialize_servos() {
     pca_init();
@@ -27,7 +27,7 @@ int set_servo_position(uint8_t servo, uint8_t degrees){
     float32 duty;
     if(degrees > SERVO_MAX_ANGLE) degrees = SERVO_MAX_ANGLE;
 	if(degrees < SERVO_MIN_ANGLE) degrees = SERVO_MIN_ANGLE;
-	if (servo < 0 || servo > SERVO_COUNT){ 
+	if (servo < 0 || servo >= SERVO_COUNT){ 
         return 1;
     }
     

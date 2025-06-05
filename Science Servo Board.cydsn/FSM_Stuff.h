@@ -22,7 +22,7 @@
 #define MODE1           0x2
 
 // FSM Errors (0x20-0x2F)
-#define ERROR_ESTOP         0x20
+//#define ERROR_ESTOP         0x20
 #define ERROR_INVALID_STATE 0x21
 
 void GotoUninitState();

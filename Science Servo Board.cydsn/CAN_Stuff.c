@@ -41,7 +41,7 @@ int ProcessCAN(CANPacket* receivedPacket, CANPacket* packetToSend) {
             uint8_t servoID = receivedPacket->data[1];
             uint8_t degrees = receivedPacket->data[2];
             
-            if(servoID >= SERVO_COUNT || degrees > SERVO_MAX_ANGLE || degrees < SERVO_MIN_ANGLE) {
+            if(servoID == 0 || servoID > SERVO_COUNT || degrees > SERVO_MAX_ANGLE || degrees < SERVO_MIN_ANGLE) {
                 err = ERROR_INVALID_SERVO_DATA;
             }
             break;
